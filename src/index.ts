@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response, json } from "express";
 import { createServer as createHttpServer } from "http";
-import { Server as SocketServer } from "socket.io";
+// import { Server as SocketServer } from "socket.io";
 import webpush from "web-push";
 import { Db } from "./db/Db";
 import { config } from "./config";
@@ -27,7 +27,7 @@ app.use(json());
 const server = createHttpServer(app);
 const port = 8000;
 
-export const ioServer = new SocketServer(server, { cors: { origin: "*" } });
+// export const ioServer = new SocketServer(server, { cors: { origin: "*" } });
 // void SocketApp.initiateServer(server);
 
 app.get("/", (req: Request, res: Response) => {
