@@ -26,3 +26,34 @@ authController.post("/register", async (req, res) => {
     res.status(500).json({ msg: "something went wrong" });
   }
 });
+
+authController.post("/validate-user", async (req, res) => {
+  try {
+    const data: User = req.body;
+    const { _id } = data;
+    const user = await Db.userRepo.getOne(_id);
+
+    return res.status(200).json({ msg: "User is active", isUser: !!user });
+  } catch (error) {
+    res.status(500).json({ msg: "something went wrong" });
+  }
+});
+
+interface UserSubsriptionReq {
+  _id: string;
+  user: Omit<Partial<User>, "_id">;
+  fromServiceWorker?: boolean;
+}
+authController.post("/subscribe", async (req, res) => {
+  try {
+    const data: UserSubsriptionReq = req.body;
+    if (data.fromServiceWorker) {
+      console.warn("FROM service WORKER", data);
+    }
+    const { _id, user } = data;
+    await Db.userRepo.edit(_id, user);
+    return res.status(201).json({ msg: "Subscribed!" });
+  } catch (error) {
+    res.status(500).json({ msg: "something went wrong" });
+  }
+});

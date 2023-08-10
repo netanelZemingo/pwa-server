@@ -2,20 +2,12 @@ import storage from "node-persist";
 import { getRandId } from "../utills";
 import { ChatRepo as MessagesRepo } from "./Messages";
 import { UserRepo } from "./Users";
-import path from "path";
-import { existsSync, mkdirSync } from "fs";
 
 export class Db {
   static userRepo = new UserRepo();
   static messagesRepo = new MessagesRepo();
 
   static async init() {
-    // Check if 'data' folder exists, and create it if not
-    const dataFolderPath = path.join(__dirname, "..", "data");
-    if (!existsSync(dataFolderPath)) {
-      mkdirSync(dataFolderPath);
-    }
-
     await storage.init({ dir: "data" });
     await this.userRepo.init();
     await this.messagesRepo.init();
@@ -31,7 +23,7 @@ export interface Repository<Many, Single, Manager> {
   getAll(params?: RelationsParams): Promise<Record<string, Manager>>;
   getOne(_id: string, params?: RelationsParams): Promise<Single>;
   write(data: Single): Promise<Single>;
-  edit(data: Manager): Promise<boolean>;
+  edit(_id: string, data: Manager): Promise<boolean>;
   insertDummyData?(): Promise<void>;
 }
 

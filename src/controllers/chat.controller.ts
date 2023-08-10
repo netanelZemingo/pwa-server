@@ -12,7 +12,7 @@ chatController.post("", async (req, res) => {
   res.status(201).json({ msg: "sent" });
 });
 
-chatController.get("", async (req, res) => {
+chatController.get("/get-chat", async (req, res) => {
   const messages = await Db.messagesRepo.getAll({ getRelations: true });
   const messagesDto: Record<string, MessageDto> = {};
   Object.values(messages).forEach((msg) => {

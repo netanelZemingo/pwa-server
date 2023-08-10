@@ -52,10 +52,14 @@ export class UserRepo implements Repository<Users, User, User> {
     return await this.getOne(user._id);
   }
 
-  async edit(user: User): Promise<boolean> {
+  async edit(_id: string, user: Omit<Partial<User>, "_id">): Promise<boolean> {
     const users = await this.getAll();
-    if (users[user._id]) {
-      users[user._id] = user;
+    const userToEdit = users[_id];
+    if (userToEdit) {
+      Object.keys(user).forEach((key) => {
+        userToEdit[key] = user[key];
+      });
+
       await storage.set("users", users);
       return true;
     }

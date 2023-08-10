@@ -10,16 +10,30 @@ import { authController } from "./controllers/auth.controller";
 import cors from "cors";
 import { authenticateToken } from "./middlewares/authenticateToken";
 // import SocketApp from "./SocketApp";
-console.log(config);
 
 webpush.setVapidDetails("mailto:noti56@gmail.com", config.vapidPublicKey, config.vapidPrivateKey);
 export const app = express();
+// app.use(cors())
+// app.use((_req, res, next) => {
+//   res.set({
+//     "Access-Control-Allow-Origin": "*",
+//     "Access-Control-Allow-Methods": "*",
+//     "Access-Control-Allow-Headers":
+//       "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+//   });
+
+//   next();
+// });
 
 app.use(
+  // cors({
+  //   origin: function (origin, callback) {
+  //     callback(null, true);
+  //   },
+  // })
   cors({
-    origin: function (origin, callback) {
-      callback(null, true);
-    },
+    origin: "*",
+    credentials: true, //access-control-allow-credentials:true
   })
 );
 

@@ -11,9 +11,12 @@ export class MessageManager implements Model {
     return { _id: this._id, message: this.message, sender: this.sender._id };
   }
   toDto(): MessageDto {
-    const user: User = JSON.parse(JSON.stringify(this.sender.data));
-    delete user.password;
-    delete user.subsription;
+    let user: User | undefined;
+    if (this.sender.data) {
+      user = JSON.parse(JSON.stringify(this.sender.data));
+      delete user.password;
+      delete user.subsription;
+    }
 
     return {
       _id: this._id,
@@ -73,7 +76,8 @@ export class ChatRepo implements Repository<MessagesDb, MessageDb, MessageManage
     return (await storage.set("chats", messages)).content[msg._id] as MessageDb;
   }
 
-  async edit(chat: MessageManager): Promise<boolean> {
+  async edit(_id: string, chat: MessageManager): Promise<boolean> {
+    throw new Error("not implemented ");
     const messages: MessagesDb = await storage.get("chats");
     if (messages[chat._id]) {
       messages[chat._id] = chat.getDataToSave();
