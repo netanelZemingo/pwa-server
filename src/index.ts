@@ -25,7 +25,7 @@ app.use(
 app.use(json());
 
 const server = createHttpServer(app);
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 3000
 
 
 // export const ioServer = new SocketServer(server, { cors: { origin: "*" } });
