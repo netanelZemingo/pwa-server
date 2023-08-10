@@ -10,6 +10,7 @@ import { authController } from "./controllers/auth.controller";
 import cors from "cors";
 import { authenticateToken } from "./middlewares/authenticateToken";
 // import SocketApp from "./SocketApp";
+console.log(config);
 
 webpush.setVapidDetails("mailto:noti56@gmail.com", config.vapidPublicKey, config.vapidPrivateKey);
 export const app = express();
@@ -25,8 +26,7 @@ app.use(
 app.use(json());
 
 const server = createHttpServer(app);
-const port = process.env.PORT || 3000
-
+const port = process.env.PORT || 3000;
 
 // export const ioServer = new SocketServer(server, { cors: { origin: "*" } });
 // void SocketApp.initiateServer(server);
