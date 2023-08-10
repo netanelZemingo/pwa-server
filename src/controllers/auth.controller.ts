@@ -11,11 +11,14 @@ authController.post("/register", async (req, res) => {
     const data: UserRegisterReq = req.body;
     const { password, username, subsription } = data;
     if (!password || !username) return res.status(400).json({ msg: "missing some data" });
-    const _id =  getRandId()
-    const user: User = { _id, password, username, subsription,icon:getRandomIcon(_id) };
+    const _id = getRandId();
+    const user: User = { _id, password, username, subsription, icon: getRandomIcon(_id) };
     const userFromDb = await Db.userRepo.write(user);
     if (user.subsription) {
-      webpush.sendNotification(user.subsription, JSON.stringify({ title: "welcome motek" }));
+      webpush.sendNotification(
+        user.subsription,
+        JSON.stringify({ title: "welcome " + user.username })
+      );
     }
 
     return res.status(201).json({ msg: "created User", user: userFromDb });

@@ -1,4 +1,4 @@
-import express, { Request, Response, json } from "express";
+import express, { NextFunction, Request, Response, json } from "express";
 import { createServer as createHttpServer } from "http";
 import { Server as SocketServer } from "socket.io";
 import webpush from "web-push";
@@ -9,15 +9,26 @@ import { authController } from "./controllers/auth.controller";
 
 import cors from "cors";
 import { authenticateToken } from "./middlewares/authenticateToken";
+// import SocketApp from "./SocketApp";
 
 webpush.setVapidDetails("mailto:noti56@gmail.com", config.vapidPublicKey, config.vapidPrivateKey);
 export const app = express();
-app.use(json());
-app.use(cors());
-const server = createHttpServer(app);
-const port = 80;
 
-export const ioServer = new SocketServer(server);
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      callback(null, true);
+    },
+  })
+);
+
+app.use(json());
+
+const server = createHttpServer(app);
+const port = 8000;
+
+export const ioServer = new SocketServer(server, { cors: { origin: "*" } });
+// void SocketApp.initiateServer(server);
 
 app.get("/", (req: Request, res: Response) => {
   req.res.send("Application works!");

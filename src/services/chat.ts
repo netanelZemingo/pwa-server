@@ -12,6 +12,9 @@ export class ChatService {
     });
     const users = await Db.userRepo.getAll();
     // console.log(users);
+    
+    //get connected users 
+    
 
     // socket implementation now
     Notifications.sendNotification(

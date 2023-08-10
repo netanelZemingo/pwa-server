@@ -1,6 +1,6 @@
 import { Db, Model, OneToOne, OneToOneDTO, RelationsParams, Repository } from "./Db";
 import storage from "node-persist";
-import { User } from "./Users";
+import { User, UserDto } from "./Users";
 
 export class MessageManager implements Model {
   constructor(public message: string, senderId: string, public _id: string) {
@@ -11,10 +11,14 @@ export class MessageManager implements Model {
     return { _id: this._id, message: this.message, sender: this.sender._id };
   }
   toDto(): MessageDto {
+    const user: User = JSON.parse(JSON.stringify(this.sender.data));
+    delete user.password;
+    delete user.subsription;
+
     return {
       _id: this._id,
       message: this.message,
-      sender: { _id: this.sender._id, data: this.sender.data },
+      sender: { _id: this.sender._id, data: user },
     };
   }
 }
@@ -28,7 +32,7 @@ export interface MessageDb {
 export interface MessageDto {
   _id: string;
   message: string;
-  sender: OneToOneDTO<User>;
+  sender: OneToOneDTO<UserDto>;
 }
 
 type MessagesDb = Record<string, MessageDb>;

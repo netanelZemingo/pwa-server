@@ -11,6 +11,7 @@ export class User implements Model {
   icon: string;
 }
 
+export type UserDto = Omit<User, "password" | "subsription">;
 type Users = Record<string, User>;
 
 export const getRandomIcon = (_id: string) => {

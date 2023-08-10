@@ -8,7 +8,8 @@ declare global {
 }
 
 // Middleware to extract the bearer token from the Authorization header and add it to the request context
-export const authenticateToken = (
+export const 
+authenticateToken = (
   req: Request<{ userId: string }>,
   res: Response,
   next: NextFunction
