@@ -17,7 +17,7 @@ export class ChatService {
     
 
     // socket implementation now
-    Notifications.sendNotification(
+    await Notifications.sendNotification(
       Object.values(users)
         .filter((user) => !!user.subsription && user._id !== msg.sender)
         .map((user) => user.subsription),
